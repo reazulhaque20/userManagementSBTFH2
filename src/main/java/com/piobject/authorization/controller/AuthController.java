@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;
+
+    public AuthController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/login")
     public String login() {
@@ -24,13 +27,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestParam String username, @RequestParam String password, Model model) {
+    public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam String email, Model model) {
         if (username.isEmpty() || password.isEmpty()) {
             model.addAttribute("error", "Username and password cannot be empty.");
             return "register";
         }
         try {
-            userService.saveUser(username, password);
+            userService.saveUser(username, password, email);
             return "redirect:/login";
         } catch (Exception e) {
             model.addAttribute("error", "Registration failed: " + e.getMessage());

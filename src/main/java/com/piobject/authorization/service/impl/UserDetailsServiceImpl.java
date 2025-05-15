@@ -16,10 +16,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserInfoRepository userInfoRepository;
+
+    public UserDetailsServiceImpl(UserInfoRepository userInfoRepository) {
+        this.userInfoRepository = userInfoRepository;
+    }
+
 
     @Override
     @Transactional
