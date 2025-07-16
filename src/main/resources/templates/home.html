@@ -6,13 +6,18 @@
     <title>Home</title>
 </head>
 <body>
-<h2 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h2>
+<ul>
+    <li th:each="auth : ${#authentication.authorities}">
+        <span th:text="${auth.authority}"></span>
+    </li>
+</ul>
+<h2 th:inline="text">Hello <span th:text="${#authentication.name}"></span>!</h2>
 
-<p sec:authorize="hasRole('ROLE_USER')">
+<p sec:authorize="hasAuthority('USER')">
     This content is only for users.
 </p>
 
-<p sec:authorize="hasRole('ROLE_ADMIN')">
+<p sec:authorize="hasAuthority('ADMIN')">
     This content is only for administrators.
 </p>
 
